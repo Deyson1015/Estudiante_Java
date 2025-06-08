@@ -332,6 +332,36 @@ public class Estudiante
         }
         return asigno;
     }
+    
+    /**
+     * Calcula el salario que ganaría un estudiante si fuera monitor.
+     * @return Salario en pesos.
+     */
+    
+    public double calcularSalario()
+    {
+    	double promedio = calcularPromedioEstudiante();
+    	
+    	if (promedio == -1)
+    	{
+    		return 0.0;
+    	}
+    	
+    	if (semestre >= 8) 
+    	{
+    		return 50000;
+    	}
+    	
+    	if (semestre >= 4)
+    	{
+    		return (promedio >= 4.5) ? 35000 : 25000;
+    	}
+    		
+    	return (promedio >= 4.0) ? 25000 : 15000;
+    	
+    }
+    
+
 
     // -----------------------------------------------------------------
     // Puntos de Extensión
@@ -343,10 +373,21 @@ public class Estudiante
      */
     public String metodo1( )
     {
-        return "Respuesta 1";
+    	double promedio = calcularPromedioEstudiante();
+    	double salario = calcularSalario();
+    	
+    	 // Uso de StringBuilder para construir la cadena de forma eficiente
+        StringBuilder infoMonitor = new StringBuilder();
+        infoMonitor.append("=== Información de salario como monitor ===\n");
+        infoMonitor.append("Nombre del Estudiante: ").append(nombre).append("\n");
+        infoMonitor.append("Semestre actual: ").append(semestre).append("\n");
+        infoMonitor.append("Promedio: ").append(String.format("%.2f", promedio)).append("\n"); // Formateo de promedio
+        infoMonitor.append("Salario estimado como monitor: $").append(String.format("%.2f", salario)); // Formateo de salario
+
+        return infoMonitor.toString();
     }
 
-    /**
+    /** 
      * Método para la extensión 2.
      * @return Respuesta 2.
      */
