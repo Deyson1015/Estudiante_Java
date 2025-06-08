@@ -12,7 +12,6 @@ package uniandes.cupi2.estudiante.interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.text.DecimalFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
