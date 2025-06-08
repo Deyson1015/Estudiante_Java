@@ -317,21 +317,26 @@ public class Estudiante
      * Método para la extensión 1.
      * @return Respuesta 1.
      */
-    public String metodo1( )
-    {
-    	double promedio = calcularPromedioEstudiante();
-    	double salario = calcularSalario();
-    	
-    	 // Uso de StringBuilder para construir la cadena que  mostrara la información
+    public String metodo1() {
+        double promedio = calcularPromedioEstudiante();
+        double salario = calcularSalario();
+
         StringBuilder Monitor = new StringBuilder();
         Monitor.append("=== Información de salario como monitor ===\n");
         Monitor.append("Nombre del Estudiante: ").append(nombre).append("\n");
         Monitor.append("Semestre actual: ").append(semestre).append("\n");
-        Monitor.append("Promedio: ").append(String.format("%.2f", promedio)).append("\n"); // Formateo de promedio
-        Monitor.append("Salario estimado como monitor: $").append(String.format("%.2f", salario)); // Formateo de salario
+
+        if (promedio == -1) {
+            Monitor.append("Promedio: No hay calificaciones registradas\n");
+        } else {
+            Monitor.append("Promedio: ").append(String.format("%.2f", promedio)).append("\n");
+        }
+
+        Monitor.append("Salario estimado como monitor: $").append(String.format("%.2f", salario));
 
         return Monitor.toString();
     }
+
 
     /** 
      * Método para la extensión 2.
