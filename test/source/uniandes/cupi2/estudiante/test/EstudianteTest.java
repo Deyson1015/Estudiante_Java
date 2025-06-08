@@ -62,9 +62,9 @@ public class EstudianteTest extends TestCase
     public void testEstudiante( )
     {
         setupEscenario1( );
-        assertEquals( "El nombre no corresponde.", "Juliana", estudiante.darNombre( ) );
-        assertEquals( "El apellido no corresponde.", "Ramírez", estudiante.darApellido( ) );
-        assertEquals( "El código no corresponde.", 201612345, estudiante.darCodigo( ) );
+        assertEquals( "El nombre no corresponde.", "Deyson", estudiante.darNombre( ) );
+        assertEquals( "El apellido no corresponde.", "Urrego", estudiante.darApellido( ) );
+        assertEquals( "El código no corresponde.", 1041531946, estudiante.darCodigo( ) );
         assertNotNull( "Debería existir el curso 1.", estudiante.darCurso1( ) );
         assertNotNull( "Debería existir el curso 2.", estudiante.darCurso2( ) );
         assertNotNull( "Debería existir el curso 3.", estudiante.darCurso3( ) );
