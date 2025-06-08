@@ -57,24 +57,9 @@ public class Estudiante
     private int semestre;
 
     /**
-     * Curso 1 del estudiante.
+     * Array con los cursos del estudiante.
      */
-    private Curso curso1;
-
-    /**
-     * Curso 2 del estudiante.
-     */
-    private Curso curso2;
-
-    /**
-     * Curso 3 del estudiante.
-     */
-    private Curso curso3;
-
-    /**
-     * Curso 4 del estudiante.
-     */
-    private Curso curso4;
+    private Curso[] cursos;
 
     // -----------------------------------------------------------------
     // Constructores
@@ -95,11 +80,12 @@ public class Estudiante
         nombre = "Deyson";
         apellido = "Urrego";
         codigo = 1041531946;
-        semestre = 1;
-        curso1 = new Curso( "ISIS1204", "APO1", 3, Departamento.SISTEMAS );
-        curso2 = new Curso( "MATE1203", "Cálculo diferencial", 3, Departamento.MATEMATICAS );
-        curso3 = new Curso( "FISI1100", "Física 1", 4, Departamento.FISICA );
-        curso4 = new Curso( "BIOL1405", "Biología celular", 4, Departamento.BIOLOGIA );
+        semestre = (int)(Math.random() * 10) + 1;
+        cursos = new Curso[4];
+        cursos[0] = new Curso( "ISIS1204", "APO1", 3, Departamento.SISTEMAS );
+        cursos[1] = new Curso( "MATE1203", "Cálculo diferencial", 3, Departamento.MATEMATICAS );
+        cursos[2] = new Curso( "FISI1100", "Física 1", 4, Departamento.FISICA );
+        cursos[3] = new Curso( "BIOL1405", "Biología celular", 4, Departamento.BIOLOGIA );
     }
 
     // -----------------------------------------------------------------
@@ -144,7 +130,7 @@ public class Estudiante
      */
     public Curso darCurso1( )
     {
-        return curso1;
+        return cursos[0];
     }
 
     /**
@@ -153,7 +139,7 @@ public class Estudiante
      */
     public Curso darCurso2( )
     {
-        return curso2;
+        return cursos[1];
     }
 
     /**
@@ -162,7 +148,7 @@ public class Estudiante
      */
     public Curso darCurso3( )
     {
-        return curso3;
+        return cursos[2];
     }
 
     /**
@@ -171,47 +157,27 @@ public class Estudiante
      */
     public Curso darCurso4( )
     {
-        return curso4;
+        return cursos[3];
     }
 
     /**
      * Calcula el promedio del estudiante de los cursos que tienen nota asignada.
      * @return Promedio de los cursos que tienen nota asignada. Si ningún curso tiene nota asignada, retorna -1.
      */
-    public double calcularPromedioEstudiante( )
-    {
+    public double calcularPromedioEstudiante() {
         double totalNota = 0.0;
         double totalCreditos = 0.0;
-        double promedio = -1;
 
-        if( curso1.estaCalificado( ) == true )
-        {
-            totalNota += ( curso1.darNota( ) * curso1.darCreditos( ) );
-            totalCreditos += curso1.darCreditos( );
-        }
-        if( curso2.estaCalificado( ) == true )
-        {
-            totalNota += ( curso2.darNota( ) * curso2.darCreditos( ) );
-            totalCreditos += curso2.darCreditos( );
-        }
-        if( curso3.estaCalificado( ) == true )
-        {
-            totalNota += ( curso3.darNota( ) * curso3.darCreditos( ) );
-            totalCreditos += curso3.darCreditos( );
-        }
-        if( curso4.estaCalificado( ) == true )
-        {
-            totalNota += ( curso4.darNota( ) * curso4.darCreditos( ) );
-            totalCreditos += curso4.darCreditos( );
+        for (Curso c : cursos) {
+            if (c.estaCalificado()) {
+                totalNota += c.darNota() * c.darCreditos();
+                totalCreditos += c.darCreditos();
+            }
         }
 
-        if( totalCreditos > 0 )
-        {
-            promedio = ( double )totalNota / totalCreditos;
-        }
-
-        return promedio;
+        return totalCreditos > 0 ? totalNota / totalCreditos : -1; // Condicional ternario
     }
+
 
     /**
      * Indica si el estudiante se encuentra en prueba académica.
@@ -250,29 +216,15 @@ public class Estudiante
      * @param pCodigoCurso Código del curso. pCodigoCurso != null && pCodigoCurso != "".
      * @return Curso buscado, null en caso de no encontrarlo.
      */
-    public Curso buscarCurso( String pCodigoCurso )
-    {
-        Curso buscado = null;
-
-        if( curso1.darCodigo( ).equals( pCodigoCurso ) )
-        {
-            buscado = curso1;
+    public Curso buscarCurso(String pCodigoCurso) {
+        for (Curso c : cursos) {
+            if (c.darCodigo().equals(pCodigoCurso)) {
+                return c;
+            }
         }
-        else if( curso2.darCodigo( ).equals( pCodigoCurso ) )
-        {
-            buscado = curso2;
-        }
-        else if( curso3.darCodigo( ).equals( pCodigoCurso ) )
-        {
-            buscado = curso3;
-        }
-        else if( curso4.darCodigo( ).equals( pCodigoCurso ) )
-        {
-            buscado = curso4;
-        }
-
-        return buscado;
+        return null;
     }
+
 
     /**
      * Registra la nota al curso dado por parámetro. <br>
@@ -282,17 +234,13 @@ public class Estudiante
      * @param pNota Nota para asignar al curso. pNota > 0.
      * @return Retorna true si pudo asignar la nota, false de lo contrario.
      */
-    public boolean asignarNotaCurso( String pCodigoCurso, double pNota )
-    {
-        Curso buscado = buscarCurso( pCodigoCurso );
-        boolean registra = false;
-        if( pNota >= Curso.MINIMA && pNota <= Curso.MAXIMA && buscado != null )
-        {
-            buscado.asignarNota( pNota );
-            registra = true;
+    public boolean asignarNotaCurso(String pCodigoCurso, double pNota) {
+        Curso c = buscarCurso(pCodigoCurso);
+        if (c != null && pNota >= Curso.MINIMA && pNota <= Curso.MAXIMA) {
+            c.asignarNota(pNota);
+            return true;
         }
-
-        return registra;
+        return false;
     }
 
     /**
@@ -307,31 +255,18 @@ public class Estudiante
      * @param pDepartamento Departamento del curso.
      * @return Retorna true si se cambió el curso, false si no se cambió porque ya existía un curso con el código que se deseaba asignar.
      */
-    public boolean cambiarCurso( String pCodigoActual, String pNuevoCodigo, String pNombre, int pCreditos, Departamento pDepartamento )
-    {
-        boolean asigno = false;
-        if( buscarCurso( pNuevoCodigo ) == null )
-        {
-            if( curso1.darCodigo( ).equals( pCodigoActual ) )
-            {
-                curso1 = new Curso( pNuevoCodigo, pNombre, pCreditos, pDepartamento );
+    public boolean cambiarCurso(String pCodigoActual, String pNuevoCodigo, String pNombre, int pCreditos, Departamento pDepartamento) {
+        if (buscarCurso(pNuevoCodigo) != null) return false;
+
+        for (int i = 0; i < cursos.length; i++) {
+            if (cursos[i].darCodigo().equals(pCodigoActual)) {
+                cursos[i] = new Curso(pNuevoCodigo, pNombre, pCreditos, pDepartamento);
+                return true;
             }
-            else if( curso2.darCodigo( ).equals( pCodigoActual ) )
-            {
-                curso2 = new Curso( pNuevoCodigo, pNombre, pCreditos, pDepartamento );
-            }
-            else if( curso3.darCodigo( ).equals( pCodigoActual ) )
-            {
-                curso3 = new Curso( pNuevoCodigo, pNombre, pCreditos, pDepartamento );
-            }
-            else if( curso4.darCodigo( ).equals( pCodigoActual ) )
-            {
-                curso4 = new Curso( pNuevoCodigo, pNombre, pCreditos, pDepartamento );
-            }
-            asigno = true;
         }
-        return asigno;
+        return false;
     }
+
     
     /**
      * Calcula el salario que ganaría un estudiante si fuera monitor.
@@ -354,12 +289,23 @@ public class Estudiante
     	
     	if (semestre >= 4)
     	{
-    		return (promedio >= 4.5) ? 35000 : 25000;
+    		return (promedio >= 4.5) ? 35000 : 25000; // Condicionales ternarios
     	}
     		
     	return (promedio >= 4.0) ? 25000 : 15000;
     	
     }
+    
+    public double mejorNota() {
+        double mejor = -1;
+        for (Curso c : cursos) {
+            if (c.estaCalificado() && c.darNota() > mejor) {
+                mejor = c.darNota();
+            }
+        }
+        return mejor;
+    }
+
     
 
 
@@ -376,15 +322,15 @@ public class Estudiante
     	double promedio = calcularPromedioEstudiante();
     	double salario = calcularSalario();
     	
-    	 // Uso de StringBuilder para construir la cadena de forma eficiente
-        StringBuilder infoMonitor = new StringBuilder();
-        infoMonitor.append("=== Información de salario como monitor ===\n");
-        infoMonitor.append("Nombre del Estudiante: ").append(nombre).append("\n");
-        infoMonitor.append("Semestre actual: ").append(semestre).append("\n");
-        infoMonitor.append("Promedio: ").append(String.format("%.2f", promedio)).append("\n"); // Formateo de promedio
-        infoMonitor.append("Salario estimado como monitor: $").append(String.format("%.2f", salario)); // Formateo de salario
+    	 // Uso de StringBuilder para construir la cadena que  mostrara la información
+        StringBuilder Monitor = new StringBuilder();
+        Monitor.append("=== Información de salario como monitor ===\n");
+        Monitor.append("Nombre del Estudiante: ").append(nombre).append("\n");
+        Monitor.append("Semestre actual: ").append(semestre).append("\n");
+        Monitor.append("Promedio: ").append(String.format("%.2f", promedio)).append("\n"); // Formateo de promedio
+        Monitor.append("Salario estimado como monitor: $").append(String.format("%.2f", salario)); // Formateo de salario
 
-        return infoMonitor.toString();
+        return Monitor.toString();
     }
 
     /** 
@@ -393,6 +339,20 @@ public class Estudiante
      */
     public String metodo2( )
     {
-        return "Respuesta 2";
+    	double mejor = mejorNota();
+    	
+    	StringBuilder mensaje = new StringBuilder();
+		mensaje.append("=== Mejor calificación del estuadiante ===\n");
+		mensaje.append("El estudiante: ").append(nombre).append(" " + apellido).append("\n");
+    	
+    	if (mejor == -1)
+    	{
+    		mensaje.append("No tiene calificaciónes registradas.");
+    	} else {
+    		
+    		mensaje.append("La mejor calificación es: ").append(mejor);
+    	}
+    		
+        return mensaje.toString();
     }
 }
