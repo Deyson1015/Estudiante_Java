@@ -49,6 +49,12 @@ public class Estudiante
      * Apellido del estudiante.
      */
     private String apellido;
+    
+    
+    /**
+     * Semestre del estudiante.
+     */
+    private int semestre;
 
     /**
      * Curso 1 del estudiante.
@@ -86,9 +92,10 @@ public class Estudiante
      */
     public Estudiante( )
     {
-        nombre = "Juliana";
-        apellido = "Ramírez";
-        codigo = 201612345;
+        nombre = "Deyson";
+        apellido = "Urrego";
+        codigo = 1041531946;
+        semestre = 1;
         curso1 = new Curso( "ISIS1204", "APO1", 3, Departamento.SISTEMAS );
         curso2 = new Curso( "MATE1203", "Cálculo diferencial", 3, Departamento.MATEMATICAS );
         curso3 = new Curso( "FISI1100", "Física 1", 4, Departamento.FISICA );
@@ -124,6 +131,11 @@ public class Estudiante
     public String darApellido( )
     {
         return apellido;
+    }
+    
+    public int darSemestre( )
+    {
+    	return semestre;
     }
 
     /**
