@@ -12,6 +12,7 @@ package uniandes.cupi2.estudiante.interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.text.DecimalFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -153,9 +154,10 @@ public class PanelInfoEstudiante extends JPanel
      */
     public void actualizar( Estudiante pEstudiante )
     {
+
         if( pEstudiante.calcularPromedioEstudiante( ) != -1 )
         {
-            txtPromedio.setText( pEstudiante.calcularPromedioEstudiante( ) + "" );
+            txtPromedio.setText( String.format("%.2f", pEstudiante.calcularPromedioEstudiante( )));
         }
         else
         {
