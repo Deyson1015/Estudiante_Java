@@ -80,7 +80,7 @@ public class Estudiante
         nombre = "Deyson";
         apellido = "Urrego";
         codigo = 1041531946;
-        semestre = 3;
+        semestre = (int)(Math.random() * 10) + 1;
         cursos = new Curso[4];
         cursos[0] = new Curso( "ISIS1204", "APO1", 3, Departamento.SISTEMAS );
         cursos[1] = new Curso( "MATE1203", "Cálculo diferencial", 3, Departamento.MATEMATICAS );
@@ -175,7 +175,7 @@ public class Estudiante
             }
         }
 
-        return totalCreditos > 0 ? totalNota / totalCreditos : -1;
+        return totalCreditos > 0 ? totalNota / totalCreditos : -1; // Condicional ternario
     }
 
 
@@ -289,7 +289,7 @@ public class Estudiante
     	
     	if (semestre >= 4)
     	{
-    		return (promedio >= 4.5) ? 35000 : 25000;
+    		return (promedio >= 4.5) ? 35000 : 25000; // Condicionales ternarios
     	}
     		
     	return (promedio >= 4.0) ? 25000 : 15000;
@@ -322,7 +322,7 @@ public class Estudiante
     	double promedio = calcularPromedioEstudiante();
     	double salario = calcularSalario();
     	
-    	 // Uso de StringBuilder para construir la cadena, para mostar la información
+    	 // Uso de StringBuilder para construir la cadena que  mostrara la información
         StringBuilder Monitor = new StringBuilder();
         Monitor.append("=== Información de salario como monitor ===\n");
         Monitor.append("Nombre del Estudiante: ").append(nombre).append("\n");
@@ -339,6 +339,20 @@ public class Estudiante
      */
     public String metodo2( )
     {
-        return "Respuesta 2";
+    	double mejor = mejorNota();
+    	
+    	StringBuilder mensaje = new StringBuilder();
+		mensaje.append("=== Mejor calificación del estuadiante ===\n");
+		mensaje.append("El estudiante: ").append(nombre).append(" " + apellido).append("\n");
+    	
+    	if (mejor == -1)
+    	{
+    		mensaje.append("No tiene calificaciónes registradas.");
+    	} else {
+    		
+    		mensaje.append("La mejor calificación es: ").append(mejor);
+    	}
+    		
+        return mensaje.toString();
     }
 }
